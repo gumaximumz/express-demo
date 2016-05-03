@@ -5,32 +5,17 @@ var express = require('express');
 var app = express();
     app.set('view engine', 'ejs');  
     //app.set("view options", {layout: false});
-    app.use(express.static(__dirname + '/public'));
+    app.use(express.static(__dirname + '/Views'));
+    app.use(express.static(__dirname + '/'));
     //app.use(express.static(__dirname + '/Scripts'));
 var userService = require('./Services/userservice');
-
-app.get('/', function (req, res) {
-  res.render('index.html', { title: 'The index page!' });
-});
-
-app.get('/home', function (req, res) {
-  res.render('home', { title: 'The index page!' });
-});
-
-app.get('/about', function (req, res) {
-  res.render('about.html');
-});
-
-app.get('/sitemap', function (req, res) {
-  res.render('home.html');
-});
 
 app.get('/index', function (req, res) {
     console.log("Run /index");
     res.send('<h1>This is index page</h1>');
 });
 
-app.get('/user', function (req, res) {
+app.get('/users', function (req, res) {
     res.json(userService.findAll());
 });
  
