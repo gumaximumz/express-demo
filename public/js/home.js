@@ -4,15 +4,15 @@ angular.module('app', ['ngRoute','app.dtModule'])
     .config(function ($routeProvider) {
          $routeProvider
              .when('/', {
-                 controller: 'HomeController',
+
                  templateUrl: 'home.html'
              })
             .when('/home', {
-                controller: 'HomeController',
+
                 templateUrl: 'test.html'
             })
             .when('/about', {
-                controller: 'AboutController',
+
                 templateUrl: 'about.html'
             })
              .otherwise({
