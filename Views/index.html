@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html ng-app="app">
+
 <head>
   <link rel="stylesheet" href="/bower_components/angular-datatables/dist/css/angular-datatables.min.css">
   <link rel="stylesheet" href="/bower_components/bootstrap/dist/css//bootstrap.min.css">
   <link rel="stylesheet" href="/bower_components/datatables/media/css/dataTables.bootstrap4.min.css">
   <title>Express HTML</title>
 </head>
+
 <body>
-  
+
   <script src="/bower_components/jquery/dist/jquery.min.js"></script>
   <script src="/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
   <script src="/bower_components/datatables/media/js/dataTables.bootstrap4.min.js"></script>
@@ -15,33 +17,35 @@
   <script src="/bower_components/angular-datatables/dist/angular-datatables.min.js"></script>
   <script src="/node_modules/angular-resource/angular-resource.js"></script>
   <script src="/node_modules/angular-route/angular-route.js"></script>
-  <script src="/public/js/home.js"</script>
+  <script src="/public/js/master.js"></script>
+  <script src="/public/js/datatables-demo.js"></script>
   <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<div>
+  <div>
 
-  <div style="margin:100px;">
-    <nav class="navbar navbar-inverse navbar-static-top">
-  <div class="container">
-    <a class="navbar-brand active" href="#/">Express HTML</a>
-    <ul class="nav navbar-nav">
-      <li>
-        <a href="#/home">Home</a>
-      </li>
-      <li>
-        <a href="#/about">About</a>
-      </li>
-      <li>
-        <a href="#/datatable">DataTable</a>
-      </li>
-      <li>
-        <a href="#/datatable2">DataTable2</a>
-      </li>
-    </ul>
+    <div style="margin:100px;">
+      <nav class="navbar navbar-inverse navbar-static-top">
+        <div class="container">
+          <a class="navbar-brand active" href="#/">Express HTML</a>
+          <ul class="nav navbar-nav">
+            <li>
+              <a href="#/home">Home</a>
+            </li>
+            <li>
+              <a href="#/about">About</a>
+            </li>
+            <li>
+              <a href="#/datatable">DataTable</a>
+            </li>
+            <li>
+              <a href="#/datatable2">DataTable2</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div ng-view></div>
+    </div>
   </div>
-</nav>
-  <div ng-view></div>
-  </div>
-  </div>
-  
+
 </body>
+
 </html>

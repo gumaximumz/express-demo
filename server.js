@@ -1,7 +1,4 @@
 var express = require('express');
-//var angular = require('angular');
-//var angularResource = require('angular-resource');
-//var angularRoute = require('angular-route');
 var app = express();
     app.set('view engine', 'ejs');  
     //app.set("view options", {layout: false});
@@ -17,6 +14,18 @@ app.get('/index', function (req, res) {
 
 app.get('/users', function (req, res) {
     res.json(userService.findAll());
+});
+
+app.post('/userserver', function (req, res) {
+    console.log(req);
+    var data = userService.gets(req.query);
+    res.json(data);
+});
+
+app.get('/userserver', function (req, res) {
+    console.log(req);
+    var data = userService.gets(req.query);
+    res.json(data);
 });
  
 app.get('/user/:id', function (req, res) {
