@@ -32,6 +32,14 @@ app.get('/user/:id', function (req, res) {
     var id = req.params.id;
     res.json(userService.findById(id));
 });
+
+app.put('/user', function (req, res) {
+  res.send('Got a PUT request at /user');
+});
+
+app.delete('/users/:id', function (req, res) {
+  res.send('Got a DELETE request at /user');
+});
  
 app.post('/newuser', function (req, res) {
     var json = req.body;

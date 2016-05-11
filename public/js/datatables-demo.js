@@ -1,6 +1,6 @@
 
 
-angular.module('app.dtModule', ['datatables'])
+angular.module('app.dtModule', ['datatables', 'datatables.bootstrap'])
     .controller('DatatableController', DatatableController)
     .controller('DatatableController2', DatatableController2)
     .config(function ($routeProvider) {
@@ -56,6 +56,7 @@ function DatatableController2($scope, $http, DTOptionsBuilder, DTColumnBuilder) 
             url: "userserver",
             type:"GET"
         })
+        .withBootstrap()
         .withOption('processing', true) //for show progress bar
         .withOption('serverSide', true) // for server side processing
         .withPaginationType('full_numbers') // for get full pagination options // first / last / prev / next and page numbers
