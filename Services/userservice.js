@@ -60,22 +60,36 @@ exports.findById = function (id) {
     }
 };
 
+exports.search = function (data) {
+    var users = exports.newUsers();
+    
+    if (data == '')
+        return users;
+
+    var user = [];
+    for (var i = 0; i < users.length; i++) {
+        if (users[i].id.toString().indexOf(data) > -1 || users[i].username.indexOf(data) > -1)
+            user.push(users[i]);
+    }
+    return user;
+};
+
 exports.gets = function (dtRequestModel) {
     console.log(dtRequestModel);
-    var users = exports.findAll();
-    users = exports.sort(dtRequestModel.order,users);
-    var models = users.slice(parseInt(dtRequestModel.start), parseInt(dtRequestModel.start)+parseInt(dtRequestModel.length));
+    var users = exports.search(dtRequestModel.search.value);
+    users = exports.sort(dtRequestModel.order, users);
+    var models = users.slice(parseInt(dtRequestModel.start), parseInt(dtRequestModel.start) + parseInt(dtRequestModel.length));
     var DTResult = {
         draw: dtRequestModel.draw,
         recordsTotal: users.length,
         recordsFiltered: users.length,
         data: models
     };
-    
+
     return DTResult;
 };
 
-exports.sort = function(order,users){
+exports.sort = function (order, users) {
     order.forEach(function (sort) {
         users = users.sort(function (a, b) {
             switch (sort.column) {
