@@ -14,9 +14,9 @@ describe('loading express', function () {
       .expect(200, done);
   });
 
-  it('responds to /user', function testSlash(done) {
+  it('responds to /users', function testSlash(done) {
     request(server)
-      .get('/user')
+      .get('/users')
       .expect('Content-Type', /json/)
       .expect(200, done);
   });

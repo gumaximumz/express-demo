@@ -1,3 +1,5 @@
+var _ = require('underscore-node');
+
 var users = [
     {
         "id": 1,
@@ -60,17 +62,21 @@ exports.findById = function (id) {
     }
 };
 
+
+
 exports.search = function (data) {
     var users = exports.newUsers();
     
     if (data == '')
         return users;
-
-    var user = [];
-    for (var i = 0; i < users.length; i++) {
-        if (users[i].id.toString().indexOf(data) > -1 || users[i].username.indexOf(data) > -1)
-            user.push(users[i]);
-    }
+    var user = _.filter(users, function(user){ 
+        return _.contains(user.username,data) || _.contains(user.id.toString(),data);
+    });
+    //var user = [];
+    // for (var i = 0; i < users.length; i++) {
+    //     if (users[i].id.toString().indexOf(data) > -1 || users[i].username.indexOf(data) > -1)
+    //         user.push(users[i]);
+    // }
     return user;
 };
 
@@ -91,22 +97,23 @@ exports.gets = function (dtRequestModel) {
 
 exports.sort = function (order, users) {
     order.forEach(function (sort) {
-        users = users.sort(function (a, b) {
-            switch (sort.column) {
-                default:
-                case '0':
-                    return a.id - b.id
-                case '1':
-                    var nameA = a.username.toLowerCase(), nameB = b.username.toLowerCase()
-                    if (nameA < nameB)
-                        return -1
-                    if (nameA > nameB)
-                        return 1
-                    return 0
-            }
-        });
+        users = _.sortBy(users, exports.getName(sort.column));
         if (sort.dir == 'desc')
             users = users.reverse();
     }, this);
-    return users;
+    return Array.from(users);
+};
+
+exports.getName = function (columnNo) {
+    switch (columnNo) {
+        default:
+        case '0':
+            return 'id'
+        case '1':
+            return 'username'
+        case '2':
+            return 'name'
+        case '3':
+            return 'position'
+    }
 };

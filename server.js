@@ -6,7 +6,6 @@ var app = express();
     app.use(express.static(__dirname + '/'));
     //app.use(express.static(__dirname + '/Scripts'));
 var userService = require('./Services/userservice');
-
 app.get('/index', function (req, res) {
     console.log("Run /index");
     res.send('<h1>This is index page</h1>');
