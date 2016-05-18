@@ -1,4 +1,6 @@
-var _ = require('underscore-node');
+// var _ = require('underscore-node');
+
+var _ = require('lodash');
 
 var users = [
     {
@@ -66,12 +68,20 @@ exports.findById = function (id) {
 
 exports.search = function (data) {
     var users = exports.newUsers();
-    
+
     if (data == '')
         return users;
+        
     var user = _.filter(users, function(user){ 
-        return _.contains(user.username,data) || _.contains(user.id.toString(),data);
+         return user.username.indexOf(data) > -1 || user.id.toString().indexOf(data) > -1 || user.username.toString().indexOf(data) > -1 || user.position.toString().indexOf(data) > -1;
     });
+
+    //underscore-node
+    //  var user = _.filter(users, function(user){ 
+    //      return _.contains(user.username,data) || _.contains(user.id.toString(),data);
+    // });
+    //---------
+
     //var user = [];
     // for (var i = 0; i < users.length; i++) {
     //     if (users[i].id.toString().indexOf(data) > -1 || users[i].username.indexOf(data) > -1)
@@ -96,11 +106,17 @@ exports.gets = function (dtRequestModel) {
 };
 
 exports.sort = function (order, users) {
-    order.forEach(function (sort) {
-        users = _.sortBy(users, exports.getName(sort.column));
-        if (sort.dir == 'desc')
-            users = users.reverse();
-    }, this);
+    console.log(order);
+    var column = _.map(_.map(order, 'column'), exports.getName);
+    var dir = _.map(order, 'dir');
+    //order.forEach(function (sort) {
+        //underscore-node
+        // users = _.sortBy(users, exports.getName(sort.column));
+        // if (sort.dir == 'desc')
+        //     users = users.reverse();
+        //----------------
+    //}, this);
+    users = _.orderBy(users, column, dir);
     return Array.from(users);
 };
 

@@ -19,26 +19,30 @@
   <script src="/node_modules/angular-route/angular-route.js"></script>
   <script src="/public/js/master.js"></script>
   <script src="/public/js/datatables-demo.js"></script>
+  <script src="/public/js/datatable3.js"></script>
   <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-      <nav class="navbar navbar-inverse navbar-static-top">
-        <div class="container">
-          <a class="navbar-brand active" href="#/">Express HTML</a>
-          <ul class="nav navbar-nav">
-            <li>
-              <a href="#/home">Home</a>
-            </li>
-            <li>
-              <a href="#/about">About</a>
-            </li>
-            <li>
-              <a href="#/datatable">DataTable</a>
-            </li>
-            <li>
-              <a href="#/datatable2">DataTable2</a>
-            </li>
+  <nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+      <a class="navbar-brand active" href="#/">Express HTML</a>
+      <ul class="nav navbar-nav">
+        <li>
+          <a href="#/home">Home</a>
+        </li>
+        <li>
+          <a href="#/about">About</a>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">DataTables <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#/datatable">DataTable1</a></li>
+            <li><a href="#/datatable2">DataTable2</a></li>
+            <li><a href="#/datatable3">DataTable3</a></li>
           </ul>
-        </div>
-      </nav>
-      <div ng-view></div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div ng-view></div>
 </body>
+
 </html>

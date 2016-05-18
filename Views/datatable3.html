@@ -1,0 +1,29 @@
+<div ng-controller="DatatableController3 as dt">
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3>Datatables</h3>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <a class="btn btn-success" id="create">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <datatable-wrapper>
+                    <table datatable="" dt-options="dt.dtOptions" dt-columns="dt.dtColumns" class="table table-striped table-bordered">
+                    </table>
+                </datatable-wrapper>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div ng-view></div>
+        </div>
+    </div>
+</div>
