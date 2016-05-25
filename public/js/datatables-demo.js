@@ -1,6 +1,6 @@
 
 
-angular.module('app.dtModule', ['datatables', 'datatables.bootstrap', 'ngResource','dt3Module'])
+angular.module('app.dtModule', ['datatables', 'datatables.bootstrap', 'ngResource'])
     .controller('DatatableController', DatatableController)
     .controller('DatatableController2', DatatableController2)
     .controller('DatatableController3', DatatableController3)
@@ -114,52 +114,44 @@ function DatatableController3($scope, $http, DTOptionsBuilder, DTColumnBuilder) 
         .withOption('rowCallback', rowCallback);
 
     $scope.status = 'Detail';
-    $('#edit').click(() => {
-        console.log(id);
-    })
+
     
+    $scope.detailUser = function(id){
+        console.log('detailUser = ' + id);
+    }
+    
+    $scope.createUser = function(){
+        console.log('Create User');
+    }
+
     function actionsDetail(cellValue, options, rowObjects) {
-        return '<a href="#/datatable/detail"> class="btn btn-xs btn-warning" style="width:100%;" title="Delete" "><span class="glyphicon glyphicon-pencil"></span></a>';
+        return '<a ng-click="detailUser('+ rowObjects['id'] +')"  class="btn btn-xs btn-info" style="width:100%;" title="Detail" "><span class="glyphicon glyphicon-file"></span></a>';
     }
 
     function actionsEdit(cellValue, options, rowObjects) {
-        return '<a href="#/datatable/edit"> class="btn btn-xs btn-warning" style="width:100%;" title="Delete" "><span class="glyphicon glyphicon-pencil"></span></a>';
+        return '<a ng-click="editUser('+ rowObjects['id'] +')"  class="btn btn-xs btn-warning" style="width:100%;" title="Delete" "><span class="glyphicon glyphicon-file"></span></a>';
     }
 
     function actionsDelete(cellValue, options, rowObjects) {
-        return '<a onclick="rowDelete(' + rowObjects["id"] + ')" class="btn btn-xs btn-danger" style="width:100%;" title="Delete" "><span class="glyphicon glyphicon-trash"></span></a>';
+        return '<a ng-click="deleteUser('+ rowObjects['id'] +')"  class="btn btn-xs btn-danger" style="width:100%;" title="Delete" "><span class="glyphicon glyphicon-file"></span></a>';
     }
-
-
-
-
-    function someClickHandler(info) {
-        getData($scope, $http, info.id, 'Detail');
+    
+    function detailUser(index) {
+        vm.persons.splice(index, 1, angular.copy(vm.person2Add));
+        vm.person2Add = _buildPerson2Add(vm.person2Add.id + 1);
     }
-
-    function rowCallback(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-        $('td', nRow).unbind('click');
-        $('td', nRow).bind('click', function () {
-            $scope.$apply(function () {
-                someClickHandler(aData);
-            });
-        });
-        return nRow;
+    function editUser(index) {
+        vm.persons.splice(index, 1, angular.copy(vm.person2Add));
+        vm.person2Add = _buildPerson2Add(vm.person2Add.id + 1);
     }
-}
-
-function rowEdit(id) {
-    console.log(id);
-}
-
-function rowDelete(id) {
-    console.log(id);
+    function deleteUser(index) {
+        vm.persons.splice(index, 1);
+    }
 }
 
 function getData(scope, http, id, status) {
     http.get("user/" + id)
         .then(function (response) {
-            console.log("PostData...success")
             scope.status = status;
             scope.id = response.data.id;
             scope.username = response.data.username;
