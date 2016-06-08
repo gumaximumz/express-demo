@@ -1,23 +1,18 @@
 
-angular.module('dt3Module', [])
-    .controller('DetailController', DatatableController3)
-    .controller('EditController', DatatableController3)
+angular.module('dtModule3', ['ngAnimate'])
+    .controller('DetailController', DetailController)
     .config(function ($routeProvider) {
         $routeProvider
-            .when('datatable3/detail', {
+            .when('/datatable3/detail', {
                 templateUrl: 'detail.html'
             })
-            .when('datatable3/edit', {
-                templateUrl: 'edit.html'
-            })
     });
-    
-    function DetailController($scope, $http) {
+
+function DetailController($scope, $http) {
     var vm = this;
-    getData($scope, $http, info.id, 'Detail');
-    }
-    
-    function EditController($scope, $http) {
-    var vm = this;
-    getData($scope, $http, info.id, 'Edit');
-    }
+    $scope.templates =
+        [{ name: 'Detail', url: 'detail.html' },
+            { name: 'Create', url: 'detail.html' }];
+    $scope.template = $scope.templates[0];
+    getData($scope, $http, 1);
+}

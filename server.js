@@ -44,9 +44,14 @@ app.delete('/users/:id', function (req, res) {
     res.send('Got a DELETE request at /user');
 });
 
-app.post('/newuser', function (req, res) {
-    var json = req.body;
-    res.send('Add new ' + json.name + ' Completed!');
+app.post('/create', function (req, res) {
+    var data = userService.create(req.body);
+    res.json(data);
+});
+
+app.post('/edit', function (req, res) {
+    var data = userService.edit(req.body);
+    res.json(data);
 });
 
 var server = app.listen(7777, function () {

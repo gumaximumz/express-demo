@@ -1,0 +1,11 @@
+<p>ID: {{id}}</p>
+<p>Name : <input type="text" ng-model="user.name" placeholder="Enter name here"></p>
+<p>Username : <input type="text" ng-model="user.username" placeholder="Enter username here"></p>
+<p>Position : <input type="text" ng-model="user.position" placeholder="Enter position here"></p>
+
+<a class="btn btn-success" ng-click="saveUser(user)">
+    Save
+</a>
+<a class="btn" ng-click="detailUser()">
+    Back
+</a>

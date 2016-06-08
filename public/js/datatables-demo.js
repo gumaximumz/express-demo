@@ -1,9 +1,9 @@
 
 
-angular.module('app.dtModule', ['datatables', 'datatables.bootstrap', 'ngResource'])
+angular.module('app.dtModule', ['datatables', 'datatables.bootstrap', 'ngAnimate'])
     .controller('DatatableController', DatatableController)
     .controller('DatatableController2', DatatableController2)
-    .controller('DatatableController3', DatatableController3)
+    .controller('DatatableController4', DatatableController4)
     .config(function ($routeProvider) {
         $routeProvider
             .when('/datatable', {
@@ -85,7 +85,7 @@ function DatatableController2($scope, $http, DTOptionsBuilder, DTColumnBuilder) 
     }
 }
 
-function DatatableController3($scope, $http, DTOptionsBuilder, DTColumnBuilder) {
+function DatatableController4($scope, $http, DTOptionsBuilder, DTColumnBuilder) {
     var vm = this;
 
     vm.dtColumns = [
@@ -113,46 +113,104 @@ function DatatableController3($scope, $http, DTOptionsBuilder, DTColumnBuilder) 
         .withOption('aaSorting', [0, 'asc'])
         .withOption('rowCallback', rowCallback);
 
-    $scope.status = 'Detail';
+    $scope.status = '';
 
-    
-    $scope.detailUser = function(id){
-        console.log('detailUser = ' + id);
+    $scope.saveUser = function (data) {
+        if ($scope.id == undefined) {
+            create(data);
+            return;
+        }
+        data['id'] = $scope.id
+        edit(data);
     }
-    
-    $scope.createUser = function(){
-        console.log('Create User');
+
+    $scope.detailUser = function (id) {
+        $scope.status = 'Details';
+        $scope.templates =
+            [{ name: 'datatables3/detail.html', url: 'datatables3/detail.html' }];
+        $scope.template = $scope.templates[0];
+        getData($scope, $http, id == undefined ? $scope.id : id);
+    }
+
+    $scope.editUser = function () {
+        $scope.status = 'Edit';
+        $scope.templates =
+            [{ name: 'datatables3/edit.html', url: 'datatables3/edit.html' }];
+        $scope.template = $scope.templates[0];
+        $scope.user = $scope;
+    }
+
+    $scope.createUser = function () {
+        $scope.status = 'Create';
+        $scope.templates =
+            [{ name: 'datatables3/create.html', url: 'datatables3/create.html' }];
+        $scope.template = $scope.templates[0];
+        getData($scope, $http, 0);
+    }
+
+    function create(data) {
+        $http({
+            url: 'create',
+            method: "POST",
+            data: data
+        })
+            .then(function (response) {
+                $scope.detailUser(response.data.id);
+                $scope.dtInstance.rerender();
+            });
+    }
+
+    function edit(data) {
+        $http({
+            url: 'edit',
+            method: "POST",
+            data: data
+        })
+            .then(function (response) {
+                $scope.detailUser(response.data.id);
+                $scope.dtInstance.rerender();
+            });
+    }
+
+    function rowCallback(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+        $('td', nRow).unbind('click');
+        $('td', nRow).bind('click', function () {
+            $scope.$apply(function () {
+                $scope.detailUser(aData.id);
+            });
+        });
+        return nRow;
     }
 
     function actionsDetail(cellValue, options, rowObjects) {
-        return '<a ng-click="detailUser('+ rowObjects['id'] +')"  class="btn btn-xs btn-info" style="width:100%;" title="Detail" "><span class="glyphicon glyphicon-file"></span></a>';
+        return '<a ng-click="detailUser(' + rowObjects['id'] + ')"  class="btn btn-xs btn-info" style="width:100%;" title="Detail" "><span class="glyphicon glyphicon-file"></span></a>';
     }
 
     function actionsEdit(cellValue, options, rowObjects) {
-        return '<a ng-click="editUser('+ rowObjects['id'] +')"  class="btn btn-xs btn-warning" style="width:100%;" title="Delete" "><span class="glyphicon glyphicon-file"></span></a>';
+        return '<a ng-click="editUser(' + rowObjects['id'] + ')"  class="btn btn-xs btn-warning" style="width:100%;" title="Delete" "><span class="glyphicon glyphicon-file"></span></a>';
     }
 
     function actionsDelete(cellValue, options, rowObjects) {
-        return '<a ng-click="deleteUser('+ rowObjects['id'] +')"  class="btn btn-xs btn-danger" style="width:100%;" title="Delete" "><span class="glyphicon glyphicon-file"></span></a>';
+        return '<a ng-click="deleteUser(' + rowObjects['id'] + ')"  class="btn btn-xs btn-danger" style="width:100%;" title="Delete" "><span class="glyphicon glyphicon-file"></span></a>';
+    }
+
+    /*function actionsDetail(cellValue, options, rowObjects) {
+        return '<a href="#/datatable3/detail" class="btn btn-xs btn-info" style="width:100%;" title="Detail" "><span class="glyphicon glyphicon-file"></span></a>';
     }
     
-    function detailUser(index) {
-        vm.persons.splice(index, 1, angular.copy(vm.person2Add));
-        vm.person2Add = _buildPerson2Add(vm.person2Add.id + 1);
+    function actionsEdit(cellValue, options, rowObjects) {
+        return '<a href="#/datatable3/edit"  class="btn btn-xs btn-warning" style="width:100%;" title="Delete" "><span class="glyphicon glyphicon-file"></span></a>';
     }
-    function editUser(index) {
-        vm.persons.splice(index, 1, angular.copy(vm.person2Add));
-        vm.person2Add = _buildPerson2Add(vm.person2Add.id + 1);
-    }
-    function deleteUser(index) {
-        vm.persons.splice(index, 1);
-    }
+
+    function actionsDelete(cellValue, options, rowObjects) {
+        return '<a href="#/datatable3/detail"  class="btn btn-xs btn-danger" style="width:100%;" title="Delete" "><span class="glyphicon glyphicon-file"></span></a>';
+    }*/
+
 }
 
-function getData(scope, http, id, status) {
+function getData(scope, http, id) {
     http.get("user/" + id)
         .then(function (response) {
-            scope.status = status;
             scope.id = response.data.id;
             scope.username = response.data.username;
             scope.name = response.data.name;

@@ -36,7 +36,7 @@ var users = [
 ];
 
 
-exports.newUsers = function () {
+/*users = function () {
     var user = JSON.parse(JSON.stringify(users));
     for (var i = 6; i < 100; i++) {
         user.push(
@@ -48,26 +48,40 @@ exports.newUsers = function () {
             })
     }
     return user;
-}
+}*/
 
 /* ฟังก์ชันสำหรับหา user ทั้งหมดในระบบ ในส่วนนี้ผมจะให้ส่งค่า users ทั้งหมดกลับไปเลย */
 exports.findAll = function () {
-    var users = exports.newUsers();
     return users;
 };
 
 /* ฟังก์ชันสำหรับหา user จาก id ในส่วนนี้เราจะวน loop หา users ที่มี id ตามที่ระบุแล้วส่งกลับไป */
 exports.findById = function (id) {
-    var users = exports.newUsers();
     for (var i = 0; i < users.length; i++) {
         if (users[i].id == id) return users[i];
     }
 };
 
 
+exports.create = function (data) {
+    var ids = _.map(users, 'id');
+    var id =  _.max(ids);
+    data['id'] = ++id;
+    users.push(data);
+    return data;
+}
+
+exports.edit = function (data) {
+    var user = _.filter(users, function(user){ 
+         return user.id == data.id ;
+    });
+    user = data;
+
+    return data;
+}
+
 
 exports.search = function (data) {
-    var users = exports.newUsers();
 
     if (data == '')
         return users;
@@ -92,13 +106,13 @@ exports.search = function (data) {
 
 exports.gets = function (dtRequestModel) {
     console.log(dtRequestModel);
-    var users = exports.search(dtRequestModel.search.value);
-    users = exports.sort(dtRequestModel.order, users);
-    var models = users.slice(parseInt(dtRequestModel.start), parseInt(dtRequestModel.start) + parseInt(dtRequestModel.length));
+    var user = exports.search(dtRequestModel.search.value);
+    user = exports.sort(dtRequestModel.order, user);
+    var models = user.slice(parseInt(dtRequestModel.start), parseInt(dtRequestModel.start) + parseInt(dtRequestModel.length));
     var DTResult = {
         draw: dtRequestModel.draw,
-        recordsTotal: users.length,
-        recordsFiltered: users.length,
+        recordsTotal: user.length,
+        recordsFiltered: user.length,
         data: models
     };
 
